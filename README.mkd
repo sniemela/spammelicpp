@@ -1,0 +1,25 @@
+# spammelicpp
+
+spammeli in C++.
+
+## Requirements
+
+You must have a [Qt framework](http://qt.nokia.com/) installed on your system.
+
+## Usage
+
+### OSX
+
+Create a makefile
+
+    qmake -makefile -spec macx-g++ -o Makefile spammelicpp
+
+create an executable
+
+    make
+
+start it
+
+    ./spammelicpp
+
+and that's it.
