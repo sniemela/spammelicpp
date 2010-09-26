@@ -6,10 +6,10 @@ namespace spammeli {
 
   class Listener {
    public:
-    virtual void SetIrc(Irc* irc) { m_irc = irc; }
+    virtual void SetIrc(const Irc* irc) { m_irc = irc; }
 
-   private:
-    Irc* m_irc;
+   protected:
+    const Irc* m_irc;
   };
 }
 
