@@ -1,10 +1,12 @@
 #ifndef SPAMMELI_LISTENER_H
 #define SPAMMELI_LISTENER_H
 
-namespace spammeli {
+namespace spammeli
+{
   class Irc;
 
-  class Listener {
+  class Listener
+  {
    public:
     virtual void SetIrc(const Irc* irc) { m_irc = irc; }
 

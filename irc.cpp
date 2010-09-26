@@ -1,21 +1,27 @@
 #include "irc.h"
 #include "bot.h"
 
-namespace spammeli {
-  Irc::Irc(const char* host, int port) {
+namespace spammeli
+{
+  Irc::Irc(const char* host, int port)
+  {
     m_host = host;
     m_port = port;
     m_connected = false;
   }
 
-  bool Irc::Connect() {
+  bool Irc::Connect()
+  {
     return true;
   }
 
   // TODO: use exceptions
-  Irc::RuntimeError Irc::Run() {
-    if (!m_connected) {
-      if (!Connect()) {
+  Irc::RuntimeError Irc::Run()
+  {
+    if (!m_connected)
+    {
+      if (!Connect())
+      {
         return kCONNECTION;
       }
     }
@@ -30,7 +36,8 @@ namespace spammeli {
     return kOK;
   }
 
-  void Irc::SetBot(Bot* bot) {
+  void Irc::SetBot(Bot* bot)
+  {
     m_bot = bot;
   }
 }

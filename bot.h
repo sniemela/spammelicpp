@@ -1,22 +1,29 @@
 #ifndef SPAMMELI_BOT_H
 #define SPAMMELI_BOT_H
 
-#include <vector>
-
-namespace spammeli {
+namespace spammeli
+{
   class Irc;
   class Listener;
+  class EventDispatcher;
 
   class Bot {
    public:
     Bot(Irc* irc);
     ~Bot();
     int Run();
+
+    inline EventDispatcher& GetEventDispatcher()
+    {
+      return *m_event_dispatcher;
+    }
+
     void Dispatch(const char* message);
-    void AddListener(Listener* listener);
+    void AddListener(const char* event_name, Listener* listener);
+
    private:
     Irc* m_irc;
-    std::vector<Listener*> m_listeners;
+    EventDispatcher* m_event_dispatcher;
   };
 }
 
