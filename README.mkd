@@ -12,7 +12,7 @@ You must have a [Qt framework](http://qt.nokia.com/) installed on your system.
 
 Create a makefile
 
-    qmake -makefile -spec macx-g++ -o Makefile spammelicpp.cpp
+    qmake -makefile -spec macx-g++ -o Makefile spammelicpp.pro
 
 create an executable
 
