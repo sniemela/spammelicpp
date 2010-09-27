@@ -7,6 +7,7 @@
 namespace spammeli
 {
   class Listener;
+  class Event;
 
   /**
    * Event dispatcher is responsible for dispatching events to
@@ -31,7 +32,22 @@ namespace spammeli
      * @param event_name
      * @param listener Listener object
      */
-    inline void Attach(const char* event_name, Listener* listener);
+    void Attach(const char* event_name, Listener* listener);
+
+    /**
+     * Notifes all listeners with the event.
+     *
+     * @param evt An event object
+     */
+    void Notify(const Event& evt);
+
+    /**
+     * Notifies listeners attached to the event_name.
+     *
+     * @param event_name A name of the event
+     * @event evt An event object
+     */
+    void Notify(const char* event_name, const Event& evt);
 
    private:
 

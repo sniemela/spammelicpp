@@ -18,7 +18,6 @@ namespace spammeli
       return *m_event_dispatcher;
     }
 
-    void Dispatch(const char* message);
     void AddListener(const char* event_name, Listener* listener);
 
    private:

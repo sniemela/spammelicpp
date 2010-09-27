@@ -30,8 +30,6 @@ namespace spammeli
     // 2. parse line and build message
 
     // 3. dispatch message(Message class) to listeners
-    const char* message = "!lastfm help";
-    m_bot->Dispatch(message);
 
     return kOK;
   }

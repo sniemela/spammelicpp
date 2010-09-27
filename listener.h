@@ -3,15 +3,12 @@
 
 namespace spammeli
 {
-  class Irc;
+  class Event;
 
   class Listener
   {
    public:
-    virtual void SetIrc(const Irc* irc) { m_irc = irc; }
-
-   protected:
-    const Irc* m_irc;
+    virtual void handleEvent(const Event& evt) = 0;
   };
 }
 

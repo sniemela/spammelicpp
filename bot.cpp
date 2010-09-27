@@ -2,6 +2,8 @@
 #include "irc.h"
 #include "listener.h"
 #include "event_dispatcher.h"
+#include "event.h"
+#include "message.h"
 
 namespace spammeli
 {
@@ -19,17 +21,15 @@ namespace spammeli
 
   int Bot::Run()
   {
-
+   // testing...
+    Message msg("PING: 1111", this);
+    Event evt(Event::PING, msg);
+    m_event_dispatcher->Notify(evt);
+    return 1;
   }
 
-  // TODO: dispatch message object
-  void Bot::Dispatch(const char* message)
-  {
-
-  }
-
-  inline void Bot::AddListener(const char* event_name,
-                               Listener* listener)
+  void Bot::AddListener(const char* event_name,
+                        Listener* listener)
   {
     m_event_dispatcher->Attach(event_name, listener);
   }
