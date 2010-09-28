@@ -11,10 +11,10 @@ using namespace spammeli;
 // Test class :)
 class PingListener : public Listener {
  public:
-  virtual void handleEvent(const Event& evt);
+  virtual void HandleEvent(const Event& evt);
 };
 
-void PingListener::handleEvent(const Event &evt)
+void PingListener::HandleEvent(const Event &evt)
 {
   std::string testi;
 
@@ -26,6 +26,22 @@ void PingListener::handleEvent(const Event &evt)
   std::cout << testi << std::endl;
 }
 
+class AutoJoin : virtual public Listener
+{
+public:
+  virtual void HandleEvent(const Event& evt);
+};
+
+void AutoJoin::HandleEvent(const Event& evt)
+{
+  // Ensure that event is CONNECT
+  if (evt.GetType() != Event::CONNECT)
+  {
+    return;
+  }
+  std::cout << "JEE AUTO JOIN!" << std::endl;
+}
+
 int main(int argc, char *argv[])
 {
   QCoreApplication a(argc, argv);
@@ -34,6 +50,9 @@ int main(int argc, char *argv[])
 
   PingListener* ping_listener = new PingListener;
   bot->AddListener("irc.on_ping", ping_listener);
+
+  AutoJoin* aj = new AutoJoin;
+  bot->AddListener("irc.connect", aj);
 
   int ret = bot->Run();
 

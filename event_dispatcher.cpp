@@ -39,7 +39,7 @@ namespace spammeli
     {
       for (li = si->second.begin(); li != si->second.end(); ++li)
       {
-        (*li)->handleEvent(evt);
+        (*li)->HandleEvent(evt);
       }
     }
   }
@@ -47,7 +47,19 @@ namespace spammeli
   void EventDispatcher::Notify(const char *event_name,
                                const Event &evt)
   {
-    // implement!
+    std::map<const char*, std::list<Listener*> >::iterator si =
+        m_listeners.find(event_name);
+
+    if (si == m_listeners.end()) {
+      return;
+    }
+
+    std::list<Listener*>::iterator li;
+
+    for (li = si->second.begin(); li != si->second.end(); ++li)
+    {
+      (*li)->HandleEvent(evt);
+    }
   }
 }
 

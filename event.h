@@ -10,8 +10,9 @@ namespace spammeli
    public:
     enum EventTypes
     {
-      JOIN = 0,
-      PING = 1
+      JOIN     = 0,
+      PING     = 1,
+      CONNECT  = 2
     };
 
     /**

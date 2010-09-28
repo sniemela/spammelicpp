@@ -24,7 +24,12 @@ namespace spammeli
    // testing...
     Message msg("PING: 1111", this);
     Event evt(Event::PING, msg);
+
+    Message msg2("", this);
+    Event evt2(Event::CONNECT, msg2);
+
     m_event_dispatcher->Notify(evt);
+    m_event_dispatcher->Notify("irc.connect", evt2);
     return 1;
   }
 

@@ -8,7 +8,7 @@ namespace spammeli
   class Listener
   {
    public:
-    virtual void handleEvent(const Event& evt) = 0;
+    virtual void HandleEvent(const Event& evt) = 0;
   };
 }
 
