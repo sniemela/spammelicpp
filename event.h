@@ -38,7 +38,7 @@ namespace spammeli
      *
      * @return Message
      */
-    inline const Message& GetMessage() const { return message_; }
+    const Message& GetMessage() const { return message_; }
 
    private:
     EventTypes type_;

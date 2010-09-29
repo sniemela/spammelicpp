@@ -3,6 +3,9 @@
 
 #include <list>
 #include <map>
+#include <string>
+
+using namespace std;
 
 namespace spammeli
 {
@@ -32,7 +35,7 @@ namespace spammeli
      * @param event_name
      * @param listener Listener object
      */
-    void Attach(const char* event_name, Listener* listener);
+    void Attach(string event_name, Listener* listener);
 
     /**
      * Notifes all listeners with the event.
@@ -47,14 +50,14 @@ namespace spammeli
      * @param event_name A name of the event
      * @event evt An event object
      */
-    void Notify(const char* event_name, const Event& evt);
+    void Notify(const string& event_name, const Event& evt);
 
    private:
 
     /**
      * An associative array of Listener objects.
      */
-    std::map<const char*, std::list<Listener*> > m_listeners;
+    map<string, list<Listener*> > m_listeners;
   };
 }
 

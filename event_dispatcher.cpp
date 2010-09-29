@@ -1,8 +1,12 @@
 
 #include <map>
 #include <list>
+#include <string>
 #include "event_dispatcher.h"
 #include "listener.h"
+#include <QDebug>
+
+using namespace std;
 
 namespace spammeli
 {
@@ -13,11 +17,12 @@ namespace spammeli
 
   EventDispatcher::~EventDispatcher()
   {
-    std::map<const char*, std::list<Listener*> >::iterator si;
-    std::list<Listener*>::iterator li;
+    map<string, list<Listener*> >::iterator si;
 
     for (si = m_listeners.begin(); si != m_listeners.end(); ++si)
     {
+      list<Listener*>::iterator li;
+
       for (li = si->second.begin(); li != si->second.end(); ++li)
       {
         delete *li;
@@ -25,7 +30,7 @@ namespace spammeli
     }
   }
 
-  void EventDispatcher::Attach(const char* event_name,
+  void EventDispatcher::Attach(string event_name,
                                Listener* listener)
   {
     m_listeners[event_name].push_back(listener);
@@ -33,10 +38,12 @@ namespace spammeli
 
   void EventDispatcher::Notify(const Event& evt)
   {
-    std::map<const char*, std::list<Listener*> >::iterator si;
-    std::list<Listener*>::iterator li;
+    map<string, list<Listener*> >::iterator si;
+
     for (si = m_listeners.begin(); si != m_listeners.end(); ++si)
     {
+      list<Listener*>::iterator li;
+
       for (li = si->second.begin(); li != si->second.end(); ++li)
       {
         (*li)->HandleEvent(evt);
@@ -44,17 +51,18 @@ namespace spammeli
     }
   }
 
-  void EventDispatcher::Notify(const char *event_name,
+  void EventDispatcher::Notify(const string& event_name,
                                const Event &evt)
   {
-    std::map<const char*, std::list<Listener*> >::iterator si =
+    map<string, list<Listener*> >::iterator si =
         m_listeners.find(event_name);
 
-    if (si == m_listeners.end()) {
+    if (si == m_listeners.end())
+    {
       return;
     }
 
-    std::list<Listener*>::iterator li;
+    list<Listener*>::iterator li;
 
     for (li = si->second.begin(); li != si->second.end(); ++li)
     {
