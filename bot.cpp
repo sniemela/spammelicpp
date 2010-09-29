@@ -25,7 +25,9 @@ namespace spammeli
     Message msg("PING: 1111", this);
     Event evt(Event::PING, msg);
 
-    Message msg2("", this);
+    QString raw =
+        ":nickname!name@tw-32151D9B.hsd1.vt.comcast.net PRIVMSG #channel :message";
+    Message msg2(raw, this);
     Event evt2(Event::CONNECT, msg2);
 
     m_event_dispatcher->Notify(evt);

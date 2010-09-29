@@ -5,6 +5,7 @@
 #include "event.h"
 #include <iostream>
 #include <string>
+#include <QDebug>
 
 using namespace spammeli;
 
@@ -39,7 +40,11 @@ void AutoJoin::HandleEvent(const Event& evt)
   {
     return;
   }
-  std::cout << "JEE AUTO JOIN!" << std::endl;
+
+  Message msg = evt.GetMessage();
+  qDebug() << msg.GetPrefix();
+  qDebug() << msg.GetCommand();
+  qDebug() << msg.GetParams().join(" ");
 }
 
 int main(int argc, char *argv[])

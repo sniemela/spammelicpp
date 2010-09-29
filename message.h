@@ -1,10 +1,13 @@
 #ifndef SPAMMELI_MESSAGE_H
 #define SPAMMELI_MESSAGE_H
 
+#include <QtCore/QString>
+#include <QtCore/QStringList>
+#include <list>
+#include "bot.h"
+
 namespace spammeli
 {
-  class Bot;
-
   /**
    * Message is a convinient object for accessing data sent by an irc server.
    */
@@ -22,8 +25,7 @@ namespace spammeli
      * @param raw_string A raw string sent by an irc server
      * @param bot Bot object
      */
-    Message(const char* raw_string, Bot* bot) :
-        raw_(raw_string), bot_(bot) {}
+    Message(const QString& raw, Bot* bot);
 
     /**
      * Reply to the message.
@@ -33,14 +35,52 @@ namespace spammeli
      */
     void Reply(const char* reply_string);
 
+    /**
+     * Returns a raw data string.
+     *
+     * @return QString A raw data string
+     */
+    QString& GetRaw() { return raw_; }
+
+    /**
+     * Returns a command string.
+     * A command can be PRIVMSG etc.
+     *
+     * @return QString A command string
+     */
+    QString GetCommand() { return command_; }
+
+    /**
+     * Returns a prefix string.
+     *
+     * @return QString A prefix string
+     */
+    QString& GetPrefix() { return prefix_; }
+
+    /**
+     * Returns a list of params.
+     *
+     * @return QStringList A list of params
+     */
+    QStringList& GetParams() { return params_; }
+
    private:
+
+    void Parse();
+
     /**
      * Raw string.
      */
-    const char* raw_;
+    QString raw_;
+
+    QString command_;
+
+    QString prefix_;
+
+    QStringList params_;
 
     /**
-     * Pointer to a bot object.
+     * A pointer to the bot.
      *
      * This is not used for freeing memory.
      */
