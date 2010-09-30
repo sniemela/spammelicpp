@@ -1,16 +1,19 @@
 #ifndef SPAMMELI_IRC_H
 #define SPAMMELI_IRC_H
 
+#include <QTcpSocket>
+#include <QEventLoop>
+
 namespace spammeli
 {
   class Bot;
-
   /**
    * Irc class is a connection between IRC network and bot.
    * It is responsible for sending and receiving messages from a socket.
    */
-  class Irc
+  class Irc: public QObject
   {
+    Q_OBJECT
    public:
     enum RuntimeError
     {
@@ -32,6 +35,11 @@ namespace spammeli
     bool Connect();
 
     /**
+    * Disconnect from host
+    */
+    bool Disconnect();
+
+    /**
      * The proram main loop.
      *
      * 1. Read data from a socket
@@ -47,10 +55,17 @@ namespace spammeli
      */
     void SetBot(Bot* bot);
 
+   public slots:
+    void OnConnected();
+    void OnDisconnected();
+    void OnTimeout();
+
    private:
-    const char* m_host;
-    int         m_port;
-    bool        m_connected;
+    const char*   m_host;
+    int           m_port;
+    bool          m_connected;
+    QTcpSocket    m_socket;
+    QEventLoop    m_eventloop;
 
     /**
      * An instace of Bot class

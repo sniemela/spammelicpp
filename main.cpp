@@ -50,18 +50,29 @@ void AutoJoin::HandleEvent(const Event& evt)
 int main(int argc, char *argv[])
 {
   QCoreApplication a(argc, argv);
+
+  std::cout << "start test\n";
   Irc* irc = new Irc("irc.quakenet.org", 6667);
-  Bot* bot = new Bot(irc);
+//  Bot* bot = new Bot(irc);
+//
+//  PingListener* ping_listener = new PingListener;
+//  bot->AddListener("irc.on_ping", ping_listener);
+//
+//  AutoJoin* aj = new AutoJoin;
+//  bot->AddListener("irc.connect", aj);
+//
+//  int ret = bot->Run();
 
-  PingListener* ping_listener = new PingListener;
-  bot->AddListener("irc.on_ping", ping_listener);
+  bool bret = irc->Connect();
+  std::cout << "connected to host: " << bret << "\n";
 
-  AutoJoin* aj = new AutoJoin;
-  bot->AddListener("irc.connect", aj);
+  sleep(5); //wait 5 s
 
-  int ret = bot->Run();
+  bret = irc->Disconnect();
+  std::cout << "disconnected from host: " << bret << "\n";
+
 
   delete irc;
-  delete bot;
+//  delete bot;
   return a.exec();
 }
