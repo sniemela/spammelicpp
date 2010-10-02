@@ -64,6 +64,12 @@ namespace spammeli
      */
     QStringList& GetParams() { return params_; }
 
+    /**
+     * Returns true if client should reply
+     * to the message.
+     */
+    bool ShouldReply() const;
+
    private:
 
     void Parse();

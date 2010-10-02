@@ -96,6 +96,14 @@ namespace spammeli
     m_bot = bot;
   }
 
+  /**
+   * @todo IMPLEMENT!
+   */
+  void Irc::SendMessage(const QString &message)
+  {
+
+  }
+
   void Irc::OnConnected()
   {
     //connected succesfully. We may leave the eventloop.

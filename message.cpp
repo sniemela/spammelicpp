@@ -13,7 +13,19 @@ namespace spammeli
 
   void Message::Reply(const char* reply_string)
   {
-    // IMPLEMENT!
+    if (!ShouldReply())
+    {
+      // Should we do this silently?
+      return;
+    }
+
+    // Send message to channel or user
+    bot_->SendMessage(params_.at(0), reply_string);
+  }
+
+  bool Message::ShouldReply() const
+  {
+    return command_ == "PRIVMSG";
   }
 
   void Message::Parse()

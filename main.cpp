@@ -42,9 +42,7 @@ void AutoJoin::HandleEvent(const Event& evt)
   }
 
   Message msg = evt.GetMessage();
-  qDebug() << msg.GetPrefix();
-  qDebug() << msg.GetCommand();
-  qDebug() << msg.GetParams().join(" ");
+  msg.Reply("HEIPPA");
 }
 
 int main(int argc, char *argv[])

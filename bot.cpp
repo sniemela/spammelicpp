@@ -40,4 +40,15 @@ namespace spammeli
   {
     m_event_dispatcher->Attach(event_name, listener);
   }
+
+  void Bot::SendMessage(const QString& receiver, const char *message)
+  {
+    QString msg = "PRIVMSG " + receiver + " :" + message;
+    SendRawMessage(msg);
+  }
+
+  void Bot::SendRawMessage(const QString &message)
+  {
+    m_irc->SendMessage(message);
+  }
 }

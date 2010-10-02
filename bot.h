@@ -1,6 +1,8 @@
 #ifndef SPAMMELI_BOT_H
 #define SPAMMELI_BOT_H
 
+#include <QtCore/QString>
+
 namespace spammeli
 {
   class Irc;
@@ -19,6 +21,8 @@ namespace spammeli
     }
 
     void AddListener(const char* event_name, Listener* listener);
+    void SendRawMessage(const QString& message);
+    void SendMessage(const QString& receiver, const char* message);
 
    private:
     Irc* m_irc;

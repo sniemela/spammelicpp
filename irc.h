@@ -55,6 +55,11 @@ namespace spammeli
      */
     void SetBot(Bot* bot);
 
+    /**
+     * Sends a message
+     */
+    void SendMessage(const QString& message);
+
    public slots:
     void OnConnected();
     void OnDisconnected();
