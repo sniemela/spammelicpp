@@ -1,4 +1,5 @@
-QT += core network
+QT += core \
+    network
 QT -= gui
 TEMPLATE = app
 CONFIG += console
@@ -9,9 +10,11 @@ HEADERS += bot.h \
     listener.h \
     event_dispatcher.h \
     event.h \
-    message.h
+    message.h \
+    irc_stream.h
 SOURCES += bot.cpp \
     irc.cpp \
     main.cpp \
     event_dispatcher.cpp \
-    message.cpp
+    message.cpp \
+    irc_stream.cpp
