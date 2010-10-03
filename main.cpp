@@ -61,13 +61,13 @@ int main(int argc, char *argv[])
 //
 //  int ret = bot->Run();
 
-  bool bret = irc->Connect();
-  std::cout << "connected to host: " << bret << "\n";
+  bool bret = irc->Run();
+  std::cout << bret << std::endl;
 
   sleep(5); //wait 5 s
 
   bret = irc->Disconnect();
-  std::cout << "disconnected from host: " << bret << "\n";
+  std::cout << "Disconnected: " << bret << std::endl;
 
 
   delete irc;

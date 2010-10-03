@@ -3,10 +3,13 @@
 
 #include <QTcpSocket>
 #include <QEventLoop>
+#include <QtCore/QThread>
 
 namespace spammeli
 {
   class Bot;
+  class IrcStream;
+
   /**
    * Irc class is a connection between IRC network and bot.
    * It is responsible for sending and receiving messages from a socket.
@@ -14,13 +17,8 @@ namespace spammeli
   class Irc: public QObject
   {
     Q_OBJECT
-   public:
-    enum RuntimeError
-    {
-      kOK = 0,
-      kCONNECTION = 1
-    };
 
+   public:
     /**
      * Irc constructor
      *
@@ -28,6 +26,8 @@ namespace spammeli
      * @param port
      */
     Irc(const char* host, int port);
+
+    ~Irc();
 
     /**
      * Establishes connection to a host.
@@ -48,7 +48,7 @@ namespace spammeli
      * 4. Dispatch the message object to the bot (listeners are informed)
      * 5. continue
      */
-    Irc::RuntimeError Run();
+    bool Run();
 
     /**
      * Set a bot object to the irc object.
@@ -59,6 +59,16 @@ namespace spammeli
      * Sends a message
      */
     void SendMessage(const QString& message);
+
+    /**
+     * Returns pointer to the bot.
+     */
+    Bot* GetBot() { return m_bot; }
+
+    /**
+     * Returns pointer to the socket.
+     */
+    QTcpSocket* GetSocket() { return &m_socket; }
 
    public slots:
     void OnConnected();
@@ -75,7 +85,14 @@ namespace spammeli
     /**
      * An instace of Bot class
      */
-    Bot*        m_bot;
+    Bot*          m_bot;
+
+    /**
+     * An instance of stream class.
+     *
+     * This class has the ownership of the stream class.
+     */
+    IrcStream*    m_stream;
   };
 }
 

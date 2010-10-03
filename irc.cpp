@@ -1,5 +1,6 @@
 #include "irc.h"
 #include "bot.h"
+#include "irc_stream.h"
 #include <QTimer>
 
 //timeout value for the connection
@@ -12,10 +13,20 @@ namespace spammeli
     m_host = host;
     m_port = port;
     m_connected = false;
+    m_stream = new IrcStream(this);
 
     //connect signals
     connect(&m_socket, SIGNAL(connected()), this, SLOT(OnConnected()));
     connect(&m_socket, SIGNAL(disconnected()), this, SLOT(OnDisconnected()));
+  }
+
+  Irc::~Irc()
+  {
+    if (m_stream->isRunning())
+    {
+      qDebug() << " STILL RUNNING!";
+    }
+    delete m_stream;
   }
 
   bool Irc::Connect()
@@ -58,6 +69,13 @@ namespace spammeli
     //start timer
     timer.start(CONNECTION_TIMEOUT);
 
+    // Terminate the stream
+    if (m_stream->isRunning())
+    {
+      m_stream->terminate();
+      m_stream->wait(1);
+    }
+
     //disconnect from host
     m_socket.disconnectFromHost();
 
@@ -73,22 +91,20 @@ namespace spammeli
   }
 
   // TODO: use exceptions
-  Irc::RuntimeError Irc::Run()
+  bool Irc::Run()
   {
-    if (!m_connected)
+    if (!Connect())
     {
-      if (!Connect())
-      {
-        return kCONNECTION;
-      }
+      return false;
     }
 
-    // 1. read socket
-    // 2. parse line and build message
+    // Start reading from the socket
+    m_stream->start();
 
-    // 3. dispatch message(Message class) to listeners
+    // Start delivering messages from the queue
+    // m_message_queue.process();
 
-    return kOK;
+    return true;
   }
 
   void Irc::SetBot(Bot* bot)
