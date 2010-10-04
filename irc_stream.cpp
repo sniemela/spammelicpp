@@ -36,5 +36,6 @@ namespace spammeli
   {
     Message msg(line, bot_);
     qDebug() << msg.GetPrefix();
+    //TODO: Verify/Validate incoming message.
   }
 }

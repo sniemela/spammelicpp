@@ -11,10 +11,12 @@ HEADERS += bot.h \
     event_dispatcher.h \
     event.h \
     message.h \
-    irc_stream.h
+    irc_stream.h \
+    messagequeue.h
 SOURCES += bot.cpp \
     irc.cpp \
     main.cpp \
     event_dispatcher.cpp \
     message.cpp \
-    irc_stream.cpp
+    irc_stream.cpp \
+    messagequeue.cpp

@@ -1,4 +1,4 @@
-# spammelicpp
+q# spammelicpp
 
 spammeli in C++.
 
