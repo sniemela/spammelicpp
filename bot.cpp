@@ -16,23 +16,14 @@ namespace spammeli
 
   Bot::~Bot()
   {
+    m_irc->Disconnect();
     delete m_event_dispatcher;
+    delete m_irc;
   }
 
   int Bot::Run()
   {
-   // testing...
-    Message msg("PING: 1111", this);
-    Event evt(Event::PING, msg);
-
-    QString raw =
-        ":nickname!name@tw-32151D9B.hsd1.vt.comcast.net PRIVMSG #channel :message";
-    Message msg2(raw, this);
-    Event evt2(Event::CONNECT, msg2);
-
-    m_event_dispatcher->Notify(evt);
-    m_event_dispatcher->Notify("irc.connect", evt2);
-    return 1;
+    return m_irc->Run();
   }
 
   void Bot::AddListener(const char* event_name,
@@ -50,5 +41,10 @@ namespace spammeli
   void Bot::SendRawMessage(const QString &message)
   {
     m_irc->SendMessage(message);
+  }
+
+  EventDispatcher* Bot::GetEventDispatcher() const
+  {
+    return m_event_dispatcher;
   }
 }

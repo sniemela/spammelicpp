@@ -23,6 +23,16 @@ namespace spammeli
     bot_->SendMessage(params_.at(0), reply_string);
   }
 
+  void Message::SendRaw(const char *raw_message)
+  {
+    bot_->SendRawMessage(raw_message);
+  }
+
+  void Message::SendRaw(const QString &raw_message)
+  {
+    bot_->SendRawMessage(raw_message);
+  }
+
   bool Message::ShouldReply() const
   {
     return command_ == "PRIVMSG";

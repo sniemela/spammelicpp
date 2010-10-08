@@ -15,10 +15,7 @@ namespace spammeli
     ~Bot();
     int Run();
 
-    inline EventDispatcher& GetEventDispatcher()
-    {
-      return *m_event_dispatcher;
-    }
+    EventDispatcher* GetEventDispatcher() const;
 
     void AddListener(const char* event_name, Listener* listener);
     void SendRawMessage(const QString& message);

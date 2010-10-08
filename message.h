@@ -36,6 +36,12 @@ namespace spammeli
     void Reply(const char* reply_string);
 
     /**
+     * Sends a raw message to a socket.
+     */
+    void SendRaw(const char* raw_message);
+    void SendRaw(const QString& raw_message);
+
+    /**
      * Returns a raw data string.
      *
      * @return QString A raw data string
