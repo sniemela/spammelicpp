@@ -3,9 +3,12 @@
 #include "irc.h"
 #include "listener.h"
 #include "event.h"
+#include "listeners/disconnecter.h"
 #include <iostream>
 #include <string>
 #include <QDebug>
+#include <QtCore/QTimer>
+#include <QtCore/QObject>
 
 using namespace spammeli;
 
@@ -17,14 +20,8 @@ class PingListener : public Listener {
 
 void PingListener::HandleEvent(const Event &evt)
 {
-  std::string testi;
-
-  if (evt.GetType() == Event::PING) {
-    testi += "PING!";
-  }
-
-  testi += " eventti tapahtu!";
-  std::cout << testi << std::endl;
+  Message msg = evt.GetMessage();
+  msg.SendRaw("PONG :" + msg.GetParams().at(1));
 }
 
 class AutoJoin : virtual public Listener
@@ -41,8 +38,6 @@ void AutoJoin::HandleEvent(const Event& evt)
     return;
   }
 
-  Message msg = evt.GetMessage();
-  msg.Reply("HEIPPA");
 }
 
 int main(int argc, char *argv[])
@@ -51,26 +46,29 @@ int main(int argc, char *argv[])
 
   std::cout << "start test\n";
   Irc* irc = new Irc("irc.quakenet.org", 6667);
-//  Bot* bot = new Bot(irc);
-//
-//  PingListener* ping_listener = new PingListener;
-//  bot->AddListener("irc.on_ping", ping_listener);
-//
-//  AutoJoin* aj = new AutoJoin;
-//  bot->AddListener("irc.connect", aj);
-//
-//  int ret = bot->Run();
+  Bot* bot = new Bot(irc);
 
-  bool bret = irc->Run();
+  PingListener* ping_listener = new PingListener;
+  bot->AddListener("irc.ping", ping_listener);
+
+  AutoJoin* aj = new AutoJoin;
+  bot->AddListener("irc.connect", aj);
+
+  // Disconnect automatically from irc in 3 seconds
+  Disconnecter* disconnecter = new Disconnecter;
+  bot->AddListener("irc.connect", disconnecter);
+
+  int bret = bot->Run();
+
   std::cout << bret << std::endl;
 
-  sleep(5); //wait 5 s
+  sleep(8); //wait 8 s
 
   bret = irc->Disconnect();
   std::cout << "Disconnected: " << bret << std::endl;
 
 
-  delete irc;
+  delete bot;
 //  delete bot;
   return a.exec();
 }

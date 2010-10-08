@@ -5,6 +5,9 @@ TEMPLATE = app
 CONFIG += console
 CONFIG -= app_bundle
 TARGET = 
+
+include(listeners/listeners.pri)
+
 HEADERS += bot.h \
     irc.h \
     listener.h \
