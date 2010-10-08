@@ -22,7 +22,6 @@ namespace spammeli
     m_host          = host;
     m_port          = port;
     m_connected     = false;
-    m_stream        = new IrcStream(this);
     m_message_queue = new MessageQueue(&m_socket);
 
     //connect signals
@@ -32,15 +31,8 @@ namespace spammeli
 
   Irc::~Irc()
   {
-    if (m_stream->isRunning())
-    {
-      qDebug() << " STILL RUNNING!";
-    }
-
     m_message_queue->Flush();
-
     delete m_message_queue;
-    delete m_stream;
   }
 
   bool Irc::Connect()
@@ -82,13 +74,6 @@ namespace spammeli
 
     //start timer
     timer.start(CONNECTION_TIMEOUT);
-
-    // Terminate the stream
-    if (m_stream->isRunning())
-    {
-      m_stream->terminate();
-      m_stream->wait(1);
-    }
 
     //disconnect from host
     m_socket.disconnectFromHost();

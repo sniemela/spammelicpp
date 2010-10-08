@@ -96,13 +96,6 @@ namespace spammeli
     Bot*          m_bot;
 
     /**
-     * An instance of stream class.
-     *
-     * This class has the ownership of the stream class.
-     */
-    IrcStream*    m_stream;
-
-    /**
      * A pointer to the message queue.
      *
      * This class has the ownership.
