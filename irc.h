@@ -4,6 +4,7 @@
 #include <QTcpSocket>
 #include <QEventLoop>
 #include <QtCore/QThread>
+#include "messagequeue.h"
 
 namespace spammeli
 {
@@ -58,7 +59,8 @@ namespace spammeli
     /**
      * Sends a message
      */
-    void SendMessage(const QString& message);
+    void SendMessage(const QString& message,
+                     MessageQueue::Priority = MessageQueue::Normal);
 
     /**
      * Returns pointer to the bot.
@@ -70,10 +72,16 @@ namespace spammeli
      */
     QTcpSocket* GetSocket() { return &m_socket; }
 
+    /**
+     * Parses incoming line from a server.
+     */
+    void Parse(const QString& line);
+
    public slots:
     void OnConnected();
     void OnDisconnected();
     void OnTimeout();
+    void OnReadyRead();
 
    private:
     const char*   m_host;
@@ -93,6 +101,13 @@ namespace spammeli
      * This class has the ownership of the stream class.
      */
     IrcStream*    m_stream;
+
+    /**
+     * A pointer to the message queue.
+     *
+     * This class has the ownership.
+     */
+    MessageQueue* m_message_queue;
   };
 }
 
