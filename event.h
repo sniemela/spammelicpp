@@ -11,8 +11,9 @@ namespace spammeli
     enum EventTypes
     {
       JOIN     = 0,
-      PING     = 1,
-      CONNECT  = 2
+      CONNECT  = 1,
+      NOTICE   = 2,
+      OTHER    = 3
     };
 
     /**
