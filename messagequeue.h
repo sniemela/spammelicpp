@@ -3,8 +3,9 @@
 
 #include <QObject>
 #include <QStringList>
+#include <QTcpSocket>
 
-namespace Spammeli
+namespace spammeli
 {
 
   class MessageQueue : public QObject
@@ -27,6 +28,12 @@ namespace Spammeli
     * @param QObject* parent, parent class instance. Null as default.
     */
     MessageQueue(QObject *parent = 0);
+
+    /**
+     * @brief Another constructor
+     * @param QTcpSocket* socket, socket object
+     */
+    MessageQueue(QTcpSocket* socket);
     ~MessageQueue();
 
     /**
@@ -101,9 +108,18 @@ namespace Spammeli
     */
     QStringList* GetList(Priority prio = Normal);
 
+    /**
+     * @brief Process through messages of given priority.
+     *
+     */
+    void ProcessList(Priority prio);
+
     QStringList   m_high;
     QStringList   m_normal;
     QStringList   m_low;
+    bool          m_processing;
+
+    QTcpSocket*   m_socket;
   };
 }
 

@@ -1,10 +1,17 @@
 #include "messagequeue.h"
+#include <QTcpSocket>
 
-namespace Spammeli
+namespace spammeli
 {
   MessageQueue::MessageQueue(QObject *parent) :
       QObject(parent)
   {
+  }
+
+  MessageQueue::MessageQueue(QTcpSocket* socket)
+  {
+    m_socket = socket;
+    m_processing = false;
   }
 
   MessageQueue::~MessageQueue()
@@ -16,6 +23,7 @@ namespace Spammeli
   void MessageQueue::Insert(const QString& str, Priority prio)
   {
     GetList(prio)->push_back(str);
+    Process();
   }
 
   bool MessageQueue::Remove(const QString& str)
@@ -51,9 +59,38 @@ namespace Spammeli
     GetList(prio)->clear();
   }
 
+  /**
+   * TODO: FLood PrOtection!!
+   */
   void MessageQueue::Process()
   {
-    //TODO: Implement!!!
+    ProcessList(High);
+    ProcessList(Normal);
+    ProcessList(Low);
+  }
+
+  void MessageQueue::ProcessList(Priority prio)
+  {
+    QStringList* messages = GetList(prio);
+
+    for (int i = 0; i < messages->size(); ++i)
+    {
+      QString message = QString(messages->at(i) + "\r\n");
+      QString log = QString(">>> Sending: " + message);
+      qDebug() << log;
+
+      QByteArray bytes = message.toUtf8();
+      qint64 bytes_write = m_socket->write(bytes);
+
+      if (bytes_write == 0)
+      {
+        qDebug() << "Couldn't write to socket...";
+        sleep(2);
+        continue;
+      }
+
+      messages->removeAt(i);
+    }
   }
 
   bool MessageQueue::HasMessages()
